@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -19,9 +20,9 @@ public class TCPThread extends Thread{
 
     @Override
     public void run() {
-
+        Socket clientSocket = null;
          try {
-             Socket clientSocket = new Socket("se2-isys.aau.at",  53212);
+              clientSocket = new Socket("se2-isys.aau.at",  53212);
              Log.d("TAG","Start Thread");
              BufferedReader inFromUser= new BufferedReader(new InputStreamReader(System.in));
 
@@ -32,12 +33,22 @@ public class TCPThread extends Thread{
              outToServer.writeBytes(matnr+'\n');
              message=inFromServer.readLine();
              Log.d("Tag","ServerResponse: "+message);
-             clientSocket.close();
+
          }
         catch(Exception e){
             message = e.getMessage();
             Log.d("TAG", e.toString());
         }
+        finally{
+
+             if (clientSocket != null) {
+                 try {
+                     clientSocket.close();
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+             }
+         }
     }
 
     public String getMessage(){

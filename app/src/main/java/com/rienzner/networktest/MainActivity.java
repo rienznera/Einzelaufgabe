@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 catch(InterruptedException ie){
                        message = ie.getMessage();
+                    Thread.currentThread().interrupt();
                 }
                 TextView responseView = findViewById(R.id.responseText);
                 responseView.setText(message);
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 catch(InterruptedException ie){
                     Log.e("LOG", ie.toString());
+                    Thread.currentThread().interrupt();
                 }
                 EditText inputMatnr = findViewById(R.id.inputMatnr);
                 inputMatnr.setText(number);
